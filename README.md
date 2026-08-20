@@ -6,7 +6,7 @@ This project shows my documentation on how I set up Pihole with Tailscale for my
 ## Why did I choose __Pihole__?
 I chose Pihole because of its DNS sinkhole. DNS sinkholes allow the blocking of ads by preventing known advertiser domains (`ads.123embed.net`) from communicating to applications by dropping the DNS query, allowing for a _mostly_ ad free experience on all devices on the network. 
 
-It does this by rerouting advertiser-bound queries to a "dead" ip address, e.g `0.0.0.0`. This has additional benefits too, as you have the ability to block DNS requests to malicious actor controlled servers, increasing the security if your network.
+It does this by rerouting advertiser-bound/attacker bound queries to a "dead" ip address, e.g `0.0.0.0`. This has additional benefits too, as you have the ability to block DNS requests to malicious actor controlled servers, increasing the security if your network. This principle also applies to malicious traffic going to known C2C servers, preventing traffic from reaching attacker controlled networks, increasing the security of your networks.
 
 ## Why did I use __Tailscale__?
 Tailscale has been my go-to as a virtual network manager. It allows me to create a software defined mesh network I can control, so if I did not have control over my own network/router - I could add my devices to my Tailscale Netowrk (or `Tailnet` for short) and control various settings from there.
@@ -25,7 +25,7 @@ Requirements:
 - 2GB storage minimum (4gb recommended)
 - Running on a __supported operating system__ (see links below)
 
-(You can find requirements for [Pihole](https://docs.pi-hole.net/main/prerequisites/), [Tailscale](https://tailscale.com/docs/install/linux) and [Docker](https://docs.docker.com/desktop/setup/install/linux/#general-system-requirements))
+(You can find requirements for [Pihole](https://docs.pi-hole.net/main/prerequisites/), [Tailscale](https://tailscale.com/docs/install) and [Docker](https://docs.docker.com/desktop/setup/install/linux/#general-system-requirements))
 
 ### 1) Install Tailscale on the device
 Register a Tailscale account [here](https://tailscale.com/) (if you do not have an account already)
@@ -84,7 +84,7 @@ If not, find the template YAML file [here](https://docs.pi-hole.net/docker/)
 
 Download either of the files above
 
-**Note: you want to set `FTLCONF_dns_listeningMode` to ALL for it to work on your tailnet
+**Note: you want to set `FTLCONF_dns_listeningMode` to ALL for it to work on your tailnet**
 
 Make a new directory to keep the docker-compose file
 CD (change directory) into the directory containing the file using `cd [PATH]`
@@ -98,7 +98,7 @@ It is possible to both run pihole on your local network and on your Tailnet
 Run `ifconfig` to find the IP Addresses of your device.
 You want to specifically look for your `wlan0` interface IP Address (inet), and your `tailscale0` interface IP Address (inet). Note both of these addresses down.
 
-#### Router Setup (this is not always possible)
+#### **Router Setup (this is not always possible)**
 Log into your router's admin console. _Usually_ the IP Address is `192.168.0.1` and its password should be on the router, however if you are in managed accomodation or do not have control of your router, skip to the Tailnet Setup section below.
 
 We need to set a **DHCP Reservation**, this gives our device a __static IP__ which will prevent devices from failing to connect to the internet in the future as normally devices have a __dynamic IP address__ (i.e it changes from time to time).
@@ -109,7 +109,7 @@ Once that is complete, find your router's DNS settings (if possible) and change 
 
 And your Pihole is set up for your Local Network!
 
-#### Tailnet Setup
+#### **Tailnet Setup**
 Install Tailscale on the devices of your choice (preferably ones that will frequently leave your home network, or all devices if you cannot control your router). 
 
 Once added, they should appear on your Tailnet like so:
@@ -131,6 +131,8 @@ Add the `tailscale0` IP address of the device that has Pihole into the IP addres
 
 ![An image showing the nameserver setting](images/nameserver-setting.png)
 
-Exit the menu and your Tailnet is set up, you can now access Pihole from other devices on your Tailnet!
+Save the nameserver changes and your Tailnet is now set up!
+
+With this complete, you should have DNS-Level ad-blocking enabled on your local network and on devices connected to your Tailnet.
 
 
