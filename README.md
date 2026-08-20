@@ -14,3 +14,15 @@ Tailscale has been my go-to as a virtual network manager. It allows me to create
 In this case, I used it to connect my devices to my Pihole even when I was not at home, as the administrator of my Tailnet, I could set my DNS to the device running pihole to keep my adblocking abilities.
 
 Using Tailscale also had additional benefits, it is much safer than port forwarding as it does not expose your router to the internet. Tailscale only allows devices connected to your Tailnet to access each other, so you do not run the risk of an attacker trying to break into your network.
+
+## Setup
+Prerequisites:
+- Already running on a supported operating system
+- Internet Access
+
+Requirements:
+- At _least_ 4GB RAM
+- 2GB storage minimum (4gb recommended)
+- Running on a __supported operating system__ (see links below)
+
+(You can find requirements for [Pihole](https://docs.pi-hole.net/main/prerequisites/), [Tailscale](https://tailscale.com/docs/install/linux) and [Docker](https://docs.docker.com/desktop/setup/install/linux/))
