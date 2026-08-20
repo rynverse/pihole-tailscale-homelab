@@ -25,4 +25,51 @@ Requirements:
 - 2GB storage minimum (4gb recommended)
 - Running on a __supported operating system__ (see links below)
 
-(You can find requirements for [Pihole](https://docs.pi-hole.net/main/prerequisites/), [Tailscale](https://tailscale.com/docs/install/linux) and [Docker](https://docs.docker.com/desktop/setup/install/linux/))
+(You can find requirements for [Pihole](https://docs.pi-hole.net/main/prerequisites/), [Tailscale](https://tailscale.com/docs/install/linux) and [Docker](https://docs.docker.com/desktop/setup/install/linux/#general-system-requirements))
+
+### 1) Install Tailscale on the device
+Register a Tailscale account (here)[https://tailscale.com/] (if you do not have an account already)
+
+Install Tailscale using the command `curl -fsSL https://tailscale.com/install.sh | sh` in the terminal
+
+Once it has been installed, run `sudo tailscale up`
+
+Authenticate your device using the link provided, logging into your Tailscale account
+
+### 2) Install Docker on the device
+NOTE: I am using Raspberry Pi OS version 6.3, so commands/installation steps may differ from here
+
+I will be using the instructions for [Installing Docker on Debian](https://docs.docker.com/desktop/setup/install/linux/debian/)
+
+
+Install GNOME Terminal using `sudo apt install gnome-terminal`
+
+Then run the following command in the terminal:
+```
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "trixie")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+```
+
+Install docker packages with the command `sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`
+
+- You can check if Docker is running by using the command `sudo systemctl status docker`
+- If it is not running, run it by using the command `sudo systemctl start docker`
+
+Finally, verify the installation by running the command `sudo docker run hello-world`
+- This command just installs a hello-world image which is often used to test if Docker is running, and prints hello world to the terminal!
