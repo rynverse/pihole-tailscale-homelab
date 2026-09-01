@@ -6,10 +6,10 @@ This project shows my documentation on how I set up Pihole with Tailscale for my
 ## Why did I choose __Pihole__?
 I chose Pihole because of its DNS sinkhole. DNS sinkholes allow the blocking of ads by preventing known advertiser domains (`ads.123embed.net`) from communicating to applications by dropping the DNS query, allowing for a _mostly_ ad free experience on all devices on the network. 
 
-It does this by rerouting advertiser-bound/attacker bound queries to a "dead" ip address, e.g `0.0.0.0`. This has additional benefits too, as you have the ability to block DNS requests to malicious actor controlled servers, increasing the security if your network. This principle also applies to malicious traffic going to known C2C servers, preventing traffic from reaching attacker controlled networks, increasing the security of your networks.
+It does this by rerouting advertiser-bound/attacker bound queries to a "dead" ip address, e.g `0.0.0.0`. This has additional benefits too, as you have the ability to block DNS requests to malicious actor controlled servers, increasing the security of your network. This principle also applies to malicious traffic going to known C2C servers, preventing traffic from reaching attacker controlled networks, increasing the security of your networks.
 
 ## Why did I use __Tailscale__?
-Tailscale has been my go-to as a virtual network manager. It allows me to create a software defined mesh network I can control, so if I did not have control over my own network/router - I could add my devices to my Tailscale Netowrk (or `Tailnet` for short) and control various settings from there.
+Tailscale has been my go-to as a virtual network manager. It allows me to create a software defined mesh network I can control, so if I did not have control over my own network/router - I could add my devices to my Tailscale Network (or `Tailnet` for short) and control various settings from there.
 
 In this case, I used it to connect my devices to my Pihole even when I was not at home, as the administrator of my Tailnet, I could set my DNS to the device running pihole to keep my adblocking abilities.
 
@@ -99,7 +99,7 @@ Run `ifconfig` to find the IP Addresses of your device.
 You want to specifically look for your `wlan0` interface IP Address (inet), and your `tailscale0` interface IP Address (inet). Note both of these addresses down.
 
 #### **Router Setup (this is not always possible)**
-Log into your router's admin console. _Usually_ the IP Address is `192.168.0.1` and its password should be on the router, however if you are in managed accomodation or do not have control of your router, skip to the Tailnet Setup section below.
+Log into your router's admin console. _Usually_ the IP Address is usually `192.168.0.1` and its password should be on the router, however if you are in managed accomodation or do not have control of your router, skip to the Tailnet Setup section below.
 
 We need to set a **DHCP Reservation**, this gives our device a __static IP__ which will prevent devices from failing to connect to the internet in the future as normally devices have a __dynamic IP address__ (i.e it changes from time to time).
 
@@ -135,4 +135,14 @@ Save the nameserver changes and your Tailnet is now set up!
 
 With this complete, you should have DNS-Level ad-blocking enabled on your local network and on devices connected to your Tailnet.
 
+## Architecture
+![An image showing the architecture of the tailnet/home network with PiHole/docker](images/architecture.png)
 
+## Lessons Learnt
+
+- I learnt (after many failed attempts) that to allow Tailnet DNS Requests, you had to set `FTLCONF_dns_listeningMode` to ALL
+- Make sure to install Docker correctly! It is more of a hassle uninstalling it and its dependencies if you do it wrong, so make sure you follow the correct instructions. In my case, I tried `sudo apt-get install docker.io` to try avoid the more tedious process of installing it, but I had to start over as it did not work.
+- If others rely on your Pihole setup, you become the system administrator of the network! You will be the first person asked if anything goes wrong, so if you do not want that responsibility keep it on for devices on your Tailnet **only**
+
+## Results
+![An image showing the results of my setup](/images/result.png)
