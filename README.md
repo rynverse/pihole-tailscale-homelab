@@ -135,11 +135,19 @@ Save the nameserver changes and your Tailnet is now set up!
 
 With this complete, you should have DNS-Level ad-blocking enabled on your local network and on devices connected to your Tailnet.
 
+## Security Implications
+1) `FTLCONF_dns_listeningMode` set to `ALL` is typically a security risk IF your router is port forwarding (thus exposed to the internet). This is because malicious actors can launch DNS Amplification Attacks, where the attaacker sends a DNS query to our `pihole` that produces a large response and spoofs the victim IP address (pretending to be them) and responds with that large package.
+
+Although this is normally a risk, because of our setup being isolated (only connected to our Tailnet and router, which in my case did NOT have port forwarding on) it is not possible for this attack to occur.
+
+2) Disabling key expiry is a measured risk, this is because key expiry is a safety check used to ensure that a device still belongs to your network. However, with this disabled there is a risk that the device is forgotten and compromised and must be manually removed.
+
+This is a measured risk, this is usually **only** acceptable if it is a headless server as it would be hard to reauthenticate, and as our Pihole acts as a DNS resolver, it would be very bad if it did go down. 
+
 ## Architecture
 ![An image showing the architecture of the tailnet/home network with PiHole/docker](images/architecture.png)
 
 ## Lessons Learnt
-
 - I learnt (after many failed attempts) that to allow Tailnet DNS Requests, you had to set `FTLCONF_dns_listeningMode` to ALL
 - Make sure to install Docker correctly! It is more of a hassle uninstalling it and its dependencies if you do it wrong, so make sure you follow the correct instructions. In my case, I tried `sudo apt-get install docker.io` to try avoid the more tedious process of installing it, but I had to start over as it did not work.
 - If others rely on your Pihole setup, you become the system administrator of the network! You will be the first person asked if anything goes wrong, so if you do not want that responsibility keep it on for devices on your Tailnet **only**
