@@ -1,4 +1,4 @@
-# PiHole + Tailscale Home Network Setup
+# Pihole + Tailscale Home Network Setup
 
 ## Overview
 This project shows my documentation on how I set up Pihole with Tailscale for my home network, as well as for my devices when I am not connected at home. This allowed me to block malicious/tracking domains network wide, as Pihole acts as a DNS-Level filter in this example.
@@ -11,7 +11,7 @@ It does this by rerouting advertiser-bound/attacker bound queries to a "dead" ip
 ## Why did I use __Tailscale__?
 Tailscale has been my go-to as a virtual network manager. It allows me to create a software defined mesh network I can control, so if I did not have control over my own network/router - I could add my devices to my Tailscale Network (or `Tailnet` for short) and control various settings from there.
 
-In this case, I used it to connect my devices to my Pihole even when I was not at home, as the administrator of my Tailnet, I could set my DNS to the device running pihole to keep my adblocking abilities.
+In this case, I used it to connect my devices to my Pihole even when I was not at home, as the administrator of my Tailnet, I could set my DNS to the device running Pihole to keep my adblocking abilities.
 
 Using Tailscale also had additional benefits, it is much safer than port forwarding as it does not expose your router to the internet. Tailscale only allows devices connected to your Tailnet to access each other, so you do not run the risk of an attacker trying to break into your network.
 
@@ -78,28 +78,28 @@ Finally, verify the installation by running the command `sudo docker run hello-w
 
 ![An image of what you should see after running the above command](images/hello-world-docker.png)
 
-### 3) Install PiHole as a Docker Container
+### 3) Install Pihole as a Docker Container
 If you want, you can use the yaml provided [here](docker-compose.yml)
 If not, find the template YAML file [here](https://docs.pi-hole.net/docker/)
 
 Download either of the files above
 
-**Note: you want to set `FTLCONF_dns_listeningMode` to ALL for it to work on your tailnet**
+**Note: you want to set `FTLCONF_dns_listeningMode` to ALL for it to work on your Tailnet**
 
 Make a new directory to keep the docker-compose file
 CD (change directory) into the directory containing the file using `cd [PATH]`
-Run `docker compose up -d` to build and start PiHole (or `docker compose` for older systems)
+Run `docker compose up -d` to build and start Pihole (or `docker compose` for older systems)
 
 ### 4) Change DNS addresses to match your Device IP
-Now that you have set up the relevent software, you will need to configure your devices to send their DNS requests to your PiHole
+Now that you have set up the relevant software, you will need to configure your devices to send their DNS requests to your Pihole
 
-It is possible to both run pihole on your local network and on your Tailnet
+It is possible to both run Pihole on your local network and on your Tailnet
 
 Run `ifconfig` to find the IP Addresses of your device.
 You want to specifically look for your `wlan0` interface IP Address (inet), and your `tailscale0` interface IP Address (inet). Note both of these addresses down.
 
 #### **Router Setup (this is not always possible)**
-Log into your router's admin console. _Usually_ the IP Address is usually `192.168.0.1` and its password should be on the router, however if you are in managed accomodation or do not have control of your router, skip to the Tailnet Setup section below.
+Log into your router's admin console. _Usually_ the IP Address is usually `192.168.0.1` and its password should be on the router, however if you are in managed accommodation or do not have control of your router, skip to the Tailnet Setup section below.
 
 We need to set a **DHCP Reservation**, this gives our device a __static IP__ which will prevent devices from failing to connect to the internet in the future as normally devices have a __dynamic IP address__ (i.e it changes from time to time).
 
@@ -145,7 +145,7 @@ Although this is normally a risk, because of our setup being isolated (only conn
 This is a measured risk, this is usually **only** acceptable if it is a headless server as it would be hard to reauthenticate, and as our Pihole acts as a DNS resolver, it would be very bad if it did go down. 
 
 ## Architecture
-![An image showing the architecture of the tailnet/home network with PiHole/docker](images/architecture.png)
+![An image showing the architecture of the tailnet/home network with Pihole/docker](images/architecture.png)
 
 ## Lessons Learnt
 - I learnt (after many failed attempts) that to allow Tailnet DNS Requests, you had to set `FTLCONF_dns_listeningMode` to ALL
