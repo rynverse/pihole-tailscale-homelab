@@ -1,5 +1,15 @@
 # Pihole + Tailscale Home Network Setup
 
+# __**This guide is being rewritten, expect an update soon**__
+The new guide will improve on many areas on this guide including (but not limited to):
+- Adding setup instructions for Uptime Kuma, Navidrome & More! (in the future)
+- Screenshots and more in depth explanations
+- Improved screenshots (that won't take up half the screen)
+- Safely storing credentials using a .env file
+- Continuous updates to `docker-compose.yml` as I work on my homelab
+
+In short, rather than *just* being a guide on how to set up up Pihole/Tailscale, this repo will contain active documentation on my homelab with setup steps - so that anyone can follow along and set it up themselves!
+
 ## Overview
 This project shows my documentation on how I set up Pihole with Tailscale for my home network, as well as for my devices when I am not connected at home. This allowed me to block malicious/tracking domains network wide, as Pihole acts as a DNS-Level filter in this example.
 
