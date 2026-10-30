@@ -14,3 +14,16 @@ You can find a guide on how I set up all of these programs in on my Raspberry Pi
 
 This guide also will contain a small section on storing passwords in a `.env` file, and *ensuring you don't commit this file* using a `.gitignore` file.
 
+### Table of Contents:
+1. [Guide](#guide)
+1. [Choice of Tools](#choice-of-tools)
+1. [Lessons Learnt](#lessons-learnt)
+
+### Guide
+Now that you have completed the guide, you can return to the Table of Contents [here](#table-of-contents)
+
+### Choice of Tools
+Return to the table of contents [here](#table-of-contents)
+### Lessons Learnt
+Use [this portal](#table-of-contents) to return the the table of contents.
+
